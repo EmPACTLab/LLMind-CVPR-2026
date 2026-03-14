@@ -126,8 +126,8 @@ a:hover {
 
 .title__icon {
     display: block;
-    width: clamp(42px, 5vw, 64px);
-    height: clamp(42px, 5vw, 64px);
+    width: 64px;
+    height: 64px;
     object-fit: contain;
     margin-right: -15px;
     margin-top:-20px;
