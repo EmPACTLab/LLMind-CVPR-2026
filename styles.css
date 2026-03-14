@@ -115,9 +115,22 @@ a:hover {
 
 .title {
     margin: 0;
-    font-size: clamp(2.7rem, 5vw, 4.2rem);
+    display: inline-flex;
+    align-items: center;
+    gap: 16px;
+    font-size: clamp(2.0rem, 4.0vw, 3.4rem);
     line-height: 1;
     text-shadow: 0 6px 18px rgba(31, 58, 95, 0.08);
+    color: var(--accent);
+}
+
+.title__icon {
+    display: block;
+    width: clamp(42px, 5vw, 64px);
+    height: clamp(42px, 5vw, 64px);
+    object-fit: contain;
+    margin-right: -15px;
+    margin-top:-20px;
 }
 
 .title-rule {
@@ -485,6 +498,10 @@ a:hover {
 }
 
 @media (max-width: 680px) {
+    .title {
+        gap: 10px;
+    }
+
     .masthead__inner {
         padding: 42px 0 28px;
     }
