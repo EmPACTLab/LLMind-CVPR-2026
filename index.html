@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LLMind</title>
+    <meta name="description" content="LLMind: Bio-inspired Training-free Adaptive Visual Representations for Vision-Language Models">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Crimson+Text:wght@400;600;700&family=Source+Sans+3:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="icon" href="files/box.png" type="image/png">
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="site">
+        <header class="masthead">
+            <div class="masthead__inner">
+                <p class="venue animate-in animate-in--1"><span>CVPR 2026</span></p>
+                <h1 class="title animate-in animate-in--2">LLMind</h1>
+                <p class="subtitle animate-in animate-in--3">Bio-inspired Training-free Adaptive Visual Representations for Vision-Language Models</p>
+                <div class="title-rule animate-in animate-in--4" aria-hidden="true"></div>
+
+                <div class="authors animate-in animate-in--5">
+                    <a class="author-pill" href="https://scholar.google.com/citations?user=jxCqchYAAAAJ&hl=en">
+                        <img class="author-pill__photo" src="files/author-pics/Soumyaratna Debnath.jpg" alt="Portrait of Soumyaratna Debnath" style="--photo-y: 10%;">
+                        <span>Soumyaratna Debnath</span>
+                    </a>
+                    <a class="author-pill" href="https://scholar.google.com/citations?user=uVkZcmoAAAAJ&hl=en">
+                        <img class="author-pill__photo" src="files/author-pics/Bui Duc Manh.jpg" alt="Portrait of Bui Duc Manh" style="--photo-y: 20%;">
+                        <span>Bui Duc Manh</span>
+                    </a>
+                    <a class="author-pill" href="https://scholar.google.com/citations?user=CQPk4msAAAAJ&hl=en">
+                        <img class="author-pill__photo" src="files/author-pics/Liu Zinan.jpg" alt="Portrait of Zinan Liu" style="--photo-y: 0%;">
+                        <span>Zinan Liu</span>
+                    </a>
+                    <a class="author-pill" href="https://scholar.google.com/citations?user=SReb2csAAAAJ&hl=en">
+                        <img class="author-pill__photo" src="files/author-pics/Prof.jpg" alt="Portrait of Lin Wang" style="--photo-y: 0%;">
+                        <span>Lin Wang<sup>&dagger;</sup></span>
+                    </a>
+                </div>
+
+                <p class="affiliation animate-in animate-in--6"><a href="https://empactlab.github.io/EmPACT-Lab/">EmPACT Lab, Nanyang Technological University, Singapore</a></p>
+
+                <nav class="links animate-in animate-in--7" aria-label="Paper resources">
+                    <a href="">
+                        <span class="link-icon" aria-hidden="true">
+                            <svg class="link-icon__svg" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+                                <path d="M7 2.5h7.5L19 7v14.5H7z" fill="currentColor"></path>
+                                <path d="M14.5 2.5V7H19" fill="#fff"></path>
+                                <path d="M9.2 10.2h7.1M9.2 13h7.1M9.2 15.8h5.2" fill="none" stroke="#fff" stroke-width="1.4" stroke-linecap="round"></path>
+                            </svg>
+                        </span>
+                        <span>Paper</span>
+                    </a>
+                    <a href="">
+                        <span class="link-icon" aria-hidden="true">▶</span>
+                        <span>Video</span>
+                    </a>
+                    <a href="">
+                        <span class="link-icon" aria-hidden="true">&lt;/&gt;</span>
+                        <span>Code</span>
+                    </a>
+                    <a href="">
+                        <span class="link-icon" aria-hidden="true">⊕</span>
+                        <span>Supplementary</span>
+                    </a>
+                </nav>
+            </div>
+        </header>
+
+        <main class="content">
+            <section class="section reveal" data-reveal>
+                <div class="section__header">
+                    <h2>Abstract</h2>
+                </div>
+                <p class="body-text">
+                    Vision-Language Models (VLMs) typically assume a uniform spatial fidelity across the entire field of view of visual inputs, dedicating equal precision to even the uninformative regions. By contrast, human vision is neither uniform nor static; it is adaptive, selective, and resource-efficient. In light of this, we present the <strong>first</strong> systematic analysis of bio-inspired visual representation methods, providing insights for more efficient and adaptive VLMs. We propose <strong>LLMind (Looking Like the Mind)</strong>, a novel <strong>training-free</strong> framework that mimics foveated encoding and cortical magnification in human vision to achieve <strong>adaptive</strong>, <strong>efficient</strong> representations for VLMs under tight pixel budgets. Our key idea is to explore a Bio-inspired Adaptive Sampling Strategy (<strong>BASS</strong>), enabling a Mobius-parameterized module that <strong>performs non-uniform sampling while preserving global scene structure</strong>. On top of BASS, we introduce closed-loop semantic feedback (<strong>CSF</strong>) via test-time adaptation to align perceptual saliency with textual information from the frozen VLM. We evaluate LLMind against uniform and other sampling baselines across diverse scene-level and region-guided visual question answering benchmarks. The results show dramatic gains, with average improvements of <strong>+20%</strong> on VQAv2, <strong>+38%</strong> on Seed-Bench, and <strong>+37%</strong> on A-OKVQA compared to uniform sampling under tight pixel budgets. More surprisingly, LLMind retains up to <strong>82%</strong>, <strong>92%</strong>, and <strong>97%</strong> of the full-resolution performance using only <strong>1%</strong>, <strong>3%</strong>, and <strong>5%</strong> of the pixels, respectively. Moreover, LLMind is <strong>lightweight, plug-and-play, and compatible</strong> with existing VLMs without requiring architectural changes.
+                </p>
+            </section>
+        </main>
+
+        <footer class="footer">
+            <p>&copy; 2026 EmPACT Lab, Nanyang Technological University, Singapore.</p>
+        </footer>
+    </div>
+    <script>
+        const revealItems = document.querySelectorAll("[data-reveal]");
+
+        if ("IntersectionObserver" in window) {
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach((entry) => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add("is-visible");
+                        observer.unobserve(entry.target);
+                    }
+                });
+            }, { threshold: 0.18, rootMargin: "0px 0px -10% 0px" });
+
+            revealItems.forEach((item) => observer.observe(item));
+        } else {
+            revealItems.forEach((item) => item.classList.add("is-visible"));
+        }
+    </script>
+</body>
+</html>
