@@ -8,7 +8,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Crimson+Text:wght@400;600;700&family=Source+Sans+3:wght@400;500;600;700&display=swap" rel="stylesheet">
-    <link rel="icon" href="files/box.png" type="image/png">
+    <link rel="icon" href="files/icons/box.png" type="image/png">
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
@@ -17,7 +17,7 @@
             <div class="masthead__inner">
                 <p class="venue animate-in animate-in--1"><span>CVPR 2026</span></p>
                 <h1 class="title animate-in animate-in--2">
-                    <img class="title__icon" src="files/llmind.png" alt="" aria-hidden="true">
+                    <img class="title__icon" src="files/icons/llmind.png" alt="" aria-hidden="true">
                     <span>LLMind</span>
                 </h1>
                 <p class="subtitle animate-in animate-in--3">Bio-inspired Training-free Adaptive Visual Representations for Vision-Language Models</p>
@@ -25,19 +25,27 @@
 
                 <div class="authors animate-in animate-in--5">
                     <a class="author-pill" href="https://scholar.google.com/citations?user=jxCqchYAAAAJ&hl=en">
-                        <img class="author-pill__photo" src="files/author-pics/Soumyaratna Debnath.jpg" alt="Portrait of Soumyaratna Debnath" style="--photo-y: 10%;">
+                        <span class="author-pill__photo-frame">
+                            <img class="author-pill__photo" src="files/author-pics/Soumyaratna.jpg" alt="Portrait of Soumyaratna Debnath" style="--photo-scale: 2.5; --photo-offset-x: -5%; --photo-offset-y: 30%;">
+                        </span>
                         <span>Soumyaratna Debnath</span>
                     </a>
                     <a class="author-pill" href="https://scholar.google.com/citations?user=uVkZcmoAAAAJ&hl=en">
-                        <img class="author-pill__photo" src="files/author-pics/Bui Duc Manh.jpg" alt="Portrait of Bui Duc Manh" style="--photo-y: 20%;">
+                        <span class="author-pill__photo-frame">
+                            <img class="author-pill__photo" src="files/author-pics/Bui Duc Manh.jpg" alt="Portrait of Bui Duc Manh" style="--photo-scale: 2; --photo-offset-x: 15%; --photo-offset-y: 40%;">
+                        </span>
                         <span>Bui Duc Manh</span>
                     </a>
                     <a class="author-pill" href="https://scholar.google.com/citations?user=CQPk4msAAAAJ&hl=en">
-                        <img class="author-pill__photo" src="files/author-pics/Liu Zinan.jpg" alt="Portrait of Zinan Liu" style="--photo-y: 0%;">
+                        <span class="author-pill__photo-frame">
+                            <img class="author-pill__photo" src="files/author-pics/Liu Zinan.jpg" alt="Portrait of Zinan Liu" style="--photo-scale: 1.6; --photo-offset-x: -5%; --photo-offset-y: 30%;">
+                        </span>
                         <span>Zinan Liu</span>
                     </a>
                     <a class="author-pill" href="https://scholar.google.com/citations?user=SReb2csAAAAJ&hl=en">
-                        <img class="author-pill__photo" src="files/author-pics/Prof.jpg" alt="Portrait of Lin Wang" style="--photo-y: 0%;">
+                        <span class="author-pill__photo-frame">
+                            <img class="author-pill__photo" src="files/author-pics/Prof Wang.jpg" alt="Portrait of Lin Wang" style="--photo-scale: 1; --photo-offset-x: 0%; --photo-offset-y: 0%;">
+                        </span>
                         <span>Lin Wang<sup class="author-mark">&dagger;</sup></span>
                     </a>
                 </div>
@@ -82,6 +90,193 @@
                     Vision-Language Models (VLMs) typically assume a uniform spatial fidelity across the entire field of view of visual inputs, dedicating equal precision to even the uninformative regions. By contrast, human vision is neither uniform nor static; it is adaptive, selective, and resource-efficient. In light of this, we present the <strong>first</strong> systematic analysis of bio-inspired visual representation methods, providing insights for more efficient and adaptive VLMs. We propose <strong>LLMind (Looking Like the Mind)</strong>, a novel <strong>training-free</strong> framework that mimics foveated encoding and cortical magnification in human vision to achieve <strong>adaptive</strong>, <strong>efficient</strong> representations for VLMs under tight pixel budgets. Our key idea is to explore a Bio-inspired Adaptive Sampling Strategy (<strong>BASS</strong>), enabling a Mobius-parameterized module that <strong>performs non-uniform sampling while preserving global scene structure</strong>. On top of BASS, we introduce closed-loop semantic feedback (<strong>CSF</strong>) via test-time adaptation to align perceptual saliency with textual information from the frozen VLM. We evaluate LLMind against uniform and other sampling baselines across diverse scene-level and region-guided visual question answering benchmarks. The results show dramatic gains, with average improvements of <strong>+20%</strong> on VQAv2, <strong>+38%</strong> on Seed-Bench, and <strong>+37%</strong> on A-OKVQA compared to uniform sampling under tight pixel budgets. More surprisingly, LLMind retains up to <strong>82%</strong>, <strong>92%</strong>, and <strong>97%</strong> of the full-resolution performance using only <strong>1%</strong>, <strong>3%</strong>, and <strong>5%</strong> of the pixels, respectively. Moreover, LLMind is <strong>lightweight, plug-and-play, and compatible</strong> with existing VLMs without requiring architectural changes.
                 </p>
             </section>
+
+            <section class="section reveal section--question" data-reveal>
+                <div class="research-question">
+                    <p class="research-question__eyebrow">Core Question</p>
+                    <p class="research-question__text">Can biologically inspired sampling strategies enable VLMs to achieve higher reasoning efficiency and accuracy than conventional uniform sampling under limited pixel budgets ?</p>
+                </div>
+            </section>
+
+            <section class="section reveal" data-reveal style="margin-top: 30px;">
+                <div class="section__header">
+                    <h2>Motivation</h2>
+                </div>
+                <p class="body-text">
+                    Modern Vision-Language Models typically process images using <strong>uniform spatial sampling</strong>, allocating <strong>equal resolution to every region</strong> regardless of its relevance. However, <strong>human vision operates differently</strong>: it concentrates <strong>high resolution in a small foveal region</strong> while maintaining <strong>coarse peripheral awareness</strong>, dynamically shifting attention to informative parts of a scene. Inspired by this principle, <strong>LLMind introduces a bio-inspired adaptive sampling strategy</strong> that <strong>redistributes spatial resolution across the image</strong>, magnifying <strong>semantically important regions</strong> while compressing <strong>less informative areas</strong> to enable <strong>efficient reasoning under strict pixel budgets</strong>.
+                </p>
+            </section>
+
+            <section class="section reveal" data-reveal>
+                <div class="section__header">
+                    <h2>Overview</h2>
+                </div>
+                <div class="content-stack">
+                    <div class="info-panel">
+                        <p class="section-kicker">Framework Summary</p>
+                        <p class="panel-text">
+                            LLMind is a <strong>training-free</strong> adaptive visual representation framework designed to improve <strong>reasoning efficiency</strong> in Vision-Language Models (VLMs) under <strong>strict pixel budgets</strong>. The framework consists of two key components that iteratively refine the sampling parameters based on semantic feedback from the frozen VLM during inference.
+                        </p>
+                    </div>
+
+                    <div class="card-grid">
+                        <article class="info-card">
+                            <p class="card-kicker">Component 01</p>
+                            <h3 class="card-title">Bio-inspired Adaptive Sampling Strategy (BASS)</h3>
+                            <p class="card-body">
+                                <strong>BASS dynamically redistributes spatial resolution</strong> across the input image. Using a Mobius transformation, LLMind magnifies task-relevant regions while compressing peripheral content.
+                            </p>
+                            <p class="card-body">
+                                This directly reflects the cortical magnification principle in human vision, where important visual stimuli occupy a larger representational space.
+                            </p>
+                        </article>
+
+                        <article class="info-card info-card--accent">
+                            <p class="card-kicker">Component 02</p>
+                            <h3 class="card-title">Closed-loop Semantic Feedback <br>(CSF)</h3>
+                            <p class="card-body">
+                                <strong>CSF adds an inference-time semantic feedback loop</strong>. Instead of relying only on perceptual similarity, LLMind evaluates predicted answers and uses that signal to adjust sampling parameters.
+                            </p>
+                            <p class="card-body">
+                                Because the VLM is treated as a black box, gradients are estimated with <strong>Simultaneous Perturbation Stochastic Approximation (SPSA)</strong>.
+                            </p>
+                        </article>
+                    </div>
+
+                    <div class="info-panel info-panel--process">
+                        <p class="section-kicker">LLMind Pipeline</p>
+                        <figure class="media-frame">
+                            <img class="media-frame__image" src="files/images/methodology.png" alt="LLMind pipeline methodology diagram">
+                        </figure>
+                        <p class="panel-text">
+                            Given an image and a question, BASS first generates an adaptive sampling representation under a predefined pixel budget, which is then reconstructed to the original resolution and fed to the frozen VLM for reasoning. The predicted answers are subsequently used by CSF to iteratively update the sampling parameters, progressively refining the visual representation so that more resolution is allocated to question-relevant regions.
+                        </p>
+                    </div>
+                </div>
+            </section>
+
+            <section class="section reveal" data-reveal>
+                <div class="section__header">
+                    <h2>Quantitative Results</h2>
+                </div>
+                <div class="results-shell">
+                    <p class="section-kicker">VQA Accuracy Under Pixel Constraints</p>
+                    <p class="panel-text results-intro" style="margin-top: -10px">
+                        Performance comparison across <strong>VQAv2</strong>, <strong>A-OKVQA</strong>, and <strong>Seed Bench</strong> at <strong>1%</strong>, <strong>3%</strong>, and <strong>5%</strong> pixel budgets. Each card reports one VLM, with <strong>LLMind (Ours)</strong> highlighted against alternative sampling strategies.
+                    </p>
+                    <div class="results-legend">
+                        <div class="results-legend__item"><span class="results-legend__dot" style="background: var(--chart-c1);"></span>Uniform Sampling</div>
+                        <div class="results-legend__item"><span class="results-legend__dot" style="background: var(--chart-c2);"></span>Static Foveated</div>
+                        <div class="results-legend__item"><span class="results-legend__dot" style="background: var(--chart-c3);"></span>Sunflower Inspired</div>
+                        <div class="results-legend__item"><span class="results-legend__dot" style="background: var(--chart-c4);"></span>Radial Sampling</div>
+                        <div class="results-legend__item"><span class="results-legend__dot" style="background: var(--chart-c5);"></span>LLMind (Ours)</div>
+                    </div>
+                    <div class="results-grid" id="quant-results-root"></div>
+                </div>
+            </section>
+
+            <section class="section reveal" data-reveal>
+                <div class="section__header">
+                    <h2>Qualitative Results</h2>
+                </div>
+                <div class="results-shell">
+                    <p class="section-kicker">Optimization Dynamics</p>
+                    <p class="panel-text results-intro" style="margin-top: -20px">
+                        The video below illustrates how <strong>LLMind iteratively refines its sampling strategy</strong> during inference, progressively reallocating visual resolution toward <strong>question-relevant regions</strong> as optimization proceeds.
+                    </p>
+                    <figure class="media-frame media-frame--video" style="margin-top: -5px">
+                        <video class="media-frame__video" controls preload="metadata" playsinline>
+                            <source src="files/videos/LLMind-Optimization.mp4" type="video/mp4">
+                            Your browser does not support the video tag.
+                        </video>
+                    </figure>
+                </div>
+            </section>
+
+            <section class="section reveal" data-reveal>
+                <div class="section__header">
+                    <h2>Category-wise Performance</h2>
+                </div>
+                <div class="results-shell">
+                    <p class="panel-text results-intro">
+                        Comparison of <strong>LLMind</strong> against <strong>Uniform Sampled</strong> across A-OKVQA question categories using <strong>Qwen2.5-VL</strong> under three pixel budgets. The plots below shows how performance changes category-by-category as the visual budget increases.
+                    </p>
+                    <div class="radar-legend" id="radar-legend">
+                        <button class="radar-legend__item is-active" type="button" data-idx="0" style="color: var(--chart-c2);">
+                            <span class="radar-legend__dot" style="background: var(--chart-c2);"></span>LLMind (Ours)
+                        </button>
+                        <button class="radar-legend__item is-active" type="button" data-idx="1" style="color: var(--chart-c5);">
+                            <span class="radar-legend__dot" style="background: var(--chart-c5);"></span>Uniform Sampled
+                        </button>
+                    </div>
+                    <div class="radar-grid" id="radar-results-root"></div>
+                </div>
+            </section>
+
+            <section class="section reveal" data-reveal>
+                <div class="section__header">
+                    <h2>Prediction Outcomes</h2>
+                </div>
+                <div class="results-shell">
+                    <p class="panel-text results-intro">
+                        The panel below compares the distribution of <strong>correct</strong>, <strong>wrong</strong>, and <strong>partially correct</strong> predictions between <strong>Uniform Sampling</strong> and <strong>LLMind</strong> across different pixel budgets using <strong>Qwen3-VL</strong> on <strong>LVIS</strong> dataset.
+                    </p>
+                    <div class="embed-panel">
+                        <iframe class="embed-panel__frame" src="prediction_outcomes.html" title="Prediction outcomes comparison"></iframe>
+                    </div>
+                </div>
+            </section>
+
+
+            <section class="section reveal" data-reveal>
+                <div class="section__header">
+                    <h2>Contributions</h2>
+                </div>
+                <div class="contribution-grid">
+                    <article class="contribution-card">
+                        <p class="contribution-card__index">01</p>
+                        <p class="contribution-card__text">
+                            Inspired by <strong>neuroscience-grounded principles</strong>, we identify a <strong>fundamental limitation</strong> in current VLM visual representations and conduct the <strong>first comprehensive analysis</strong> of visual representation strategies in VLMs.
+                        </p>
+                    </article>
+
+                    <article class="contribution-card">
+                        <p class="contribution-card__index">02</p>
+                        <p class="contribution-card__text">
+                            We propose <strong>BASS</strong>, a bio-inspired sampling strategy that dynamically reallocates the pixel budget toward <strong>perceptually and semantically salient regions</strong>, mimicking <strong>human visual perception</strong>.
+                        </p>
+                    </article>
+
+                    <article class="contribution-card">
+                        <p class="contribution-card__index">03</p>
+                        <p class="contribution-card__text">
+                            We introduce <strong>CSF</strong>, a <strong>training-free test-time optimization mechanism</strong> that aligns visual perception with <strong>task-driven reasoning</strong> and is compatible with both <strong>white-box and black-box VLMs</strong>.
+                        </p>
+                    </article>
+
+                    <article class="contribution-card">
+                        <p class="contribution-card__index">04</p>
+                        <p class="contribution-card__text">
+                            We validate the proposed framework on <strong>standard VQA benchmarks</strong>, demonstrating <strong>consistent improvements in reasoning accuracy</strong> under constrained pixel budgets for both <strong>scene-level</strong> and <strong>region-guided</strong> settings.
+                        </p>
+                    </article>
+                </div>
+            </section>
+
+            <section class="section reveal" data-reveal>
+                <div class="bibtex-card">
+                    <p class="section-kicker">Citation</p>
+                    <pre class="bibtex-block"><code>Coming Soon
+                        <!-- @inproceedings{debnath2026llmind,
+                        title     = {LLMind: Bio-inspired Training-free Adaptive Visual Representations for Vision-Language Models},
+                        author    = {Debnath, Soumyaratna and Bui Duc Manh and Liu, Zinan and Wang, Lin},
+                        booktitle = {Proceedings of the IEEE/CVF Conference on Computer Vision and Pattern Recognition (CVPR)},
+                        year      = {2026}
+                        } -->
+                </code></pre>
+                </div>
+            </section>
+
         </main>
 
         <footer class="footer">
@@ -104,6 +299,383 @@
             revealItems.forEach((item) => observer.observe(item));
         } else {
             revealItems.forEach((item) => item.classList.add("is-visible"));
+        }
+
+        const quantResultsData = {
+            "VQAv2": {
+                "Qwen2.5-VL": {
+                    fullRes: 86.96,
+                    methods: [
+                        [47.31, 52.71, 59.94],
+                        [46.18, 51.96, 58.30],
+                        [43.77, 47.41, 52.85],
+                        [44.79, 46.25, 50.12],
+                        [55.05, 65.37, 73.54],
+                    ]
+                },
+                "SmolVLM": {
+                    fullRes: 80.01,
+                    methods: [
+                        [46.38, 53.28, 59.06],
+                        [44.24, 51.64, 58.43],
+                        [46.45, 50.55, 55.48],
+                        [42.99, 47.07, 50.92],
+                        [58.88, 70.40, 76.46],
+                    ]
+                },
+                "LLaVA-OneVision": {
+                    fullRes: 73.34,
+                    methods: [
+                        [40.98, 49.15, 57.60],
+                        [42.27, 42.88, 45.37],
+                        [42.29, 46.02, 50.51],
+                        [40.10, 42.40, 45.25],
+                        [47.00, 54.49, 62.38],
+                    ]
+                },
+            },
+            "A-OKVQA": {
+                "Qwen2.5-VL": {
+                    fullRes: 85.67,
+                    methods: [
+                        [44.31, 48.77, 52.01],
+                        [45.58, 50.65, 56.78],
+                        [43.23, 46.28, 51.61],
+                        [45.58, 47.16, 48.90],
+                        [51.18, 61.53, 69.74],
+                    ]
+                },
+                "SmolVLM": {
+                    fullRes: 78.60,
+                    methods: [
+                        [39.78, 45.06, 48.73],
+                        [42.09, 46.98, 51.44],
+                        [42.44, 46.28, 48.64],
+                        [41.48, 43.58, 47.33],
+                        [64.81, 72.63, 76.81],
+                    ]
+                },
+                "LLaVA-OneVision": {
+                    fullRes: 60.26,
+                    methods: [
+                        [34.80, 35.71, 42.33],
+                        [33.25, 35.28, 37.27],
+                        [27.68, 30.91, 36.24],
+                        [28.29, 28.03, 29.78],
+                        [43.01, 46.09, 53.18],
+                    ]
+                },
+            },
+            "Seed Bench": {
+                "Qwen2.5-VL": {
+                    fullRes: 71.25,
+                    methods: [
+                        [35.53, 41.55, 48.45],
+                        [34.75, 42.05, 49.4],
+                        [36.70, 40.55, 44.6],
+                        [35.20, 39.45, 41.75],
+                        [40.28, 50.50, 58.23],
+                    ]
+                },
+                "SmolVLM": {
+                    fullRes: 51.6,
+                    methods: [
+                        [21.81, 26.38, 29.19],
+                        [30.20, 36.85, 42.65],
+                        [33.60, 34.95, 37.85],
+                        [30.80, 33.15, 36.05],
+                        [37.42, 43.44, 45.97],
+                    ]
+                },
+                "LLaVA-OneVision": {
+                    fullRes: 37.75,
+                    methods: [
+                        [18.63, 21.60, 24.35],
+                        [24.85, 23.55, 25.60],
+                        [21.40, 23.90, 25.15],
+                        [22.90, 21.70, 22.55],
+                        [26.05, 27.85, 30.40],
+                    ]
+                },
+            },
+        };
+
+        const quantMethodNames = [
+            "Uniform Sampling",
+            "Static Foveated",
+            "Sunflower Inspired",
+            "Radial Sampling",
+            "LLMind (Ours)",
+        ];
+
+        const quantColors = [
+            "var(--chart-c1)",
+            "var(--chart-c2)",
+            "var(--chart-c3)",
+            "var(--chart-c4)",
+            "var(--chart-c5)",
+        ];
+
+        function buildQuantCard(dataset, model, info) {
+            const rowsHTML = info.methods.map((vals, methodIndex) => {
+                const isOurs = methodIndex === 4;
+                const cells = vals.map((value) => `
+                    <div class="quant-card__cell">
+                        <div class="quant-card__track">
+                            <div class="quant-card__fill" style="width:${value}%; background:${quantColors[methodIndex]};"></div>
+                        </div>
+                        <div class="quant-card__value">${value.toFixed(2)}</div>
+                    </div>
+                `).join("");
+
+                return `
+                    <div class="quant-card__row${isOurs ? " quant-card__row--ours" : ""}">
+                        <div class="quant-card__method">${quantMethodNames[methodIndex]}</div>
+                        ${cells}
+                    </div>
+                `;
+            }).join("");
+
+            return `
+                <article class="quant-card">
+                    <p class="quant-card__dataset">${dataset}</p>
+                    <h3 class="quant-card__model">${model}</h3>
+                    <p class="quant-card__fullres">Full Res Accuracy: ${info.fullRes}%</p>
+                    <div class="quant-card__headers">
+                        <div></div>
+                        <div class="quant-card__header">1%</div>
+                        <div class="quant-card__header">3%</div>
+                        <div class="quant-card__header">5%</div>
+                    </div>
+                    <div class="quant-card__body">${rowsHTML}</div>
+                </article>
+            `;
+        }
+
+        const quantRoot = document.getElementById("quant-results-root");
+        if (quantRoot) {
+            Object.entries(quantResultsData).forEach(([dataset, models]) => {
+                Object.entries(models).forEach(([model, info]) => {
+                    const wrapper = document.createElement("div");
+                    wrapper.innerHTML = buildQuantCard(dataset, model, info);
+                    quantRoot.appendChild(wrapper.firstElementChild);
+                });
+            });
+        }
+
+        const predictionFrame = document.querySelector(".embed-panel__frame");
+        function resizePredictionFrame() {
+            if (!predictionFrame) {
+                return;
+            }
+            const frameDoc = predictionFrame.contentWindow?.document;
+            if (!frameDoc) {
+                return;
+            }
+            const nextHeight = Math.ceil(
+                Math.max(
+                    frameDoc.body?.scrollHeight || 0,
+                    frameDoc.documentElement?.scrollHeight || 0
+                )
+            );
+            if (nextHeight > 0) {
+                predictionFrame.style.height = `${nextHeight}px`;
+            }
+        }
+
+        if (predictionFrame) {
+            predictionFrame.addEventListener("load", () => {
+                resizePredictionFrame();
+                predictionFrame.contentWindow?.addEventListener("resize", resizePredictionFrame);
+                setTimeout(resizePredictionFrame, 150);
+            });
+        }
+
+        const radarCategories = [
+            "Spatial\nRelations",
+            "Instance\nLocation",
+            "Instance\nCounting",
+            "Others",
+            "Yes/No\nVerification",
+            "Existence\nPresence",
+            "Instance\nInteraction",
+            "Instance\nAttributes",
+        ];
+
+        const radarSeries = [
+            { label: "LLMind (Ours)", color: "#2e9e5e" },
+            { label: "Uniform Sampled", color: "#b06a00" },
+        ];
+
+        const radarBudgets = [
+            {
+                title: "1% Pixel Budget",
+                values: [
+                    [35.05, 29.19, 35.70, 35.05, 81.32, 72.94, 37.43, 56.72],
+                    [29.89, 22.98, 32.67, 28.65, 75.47, 63.82, 27.39, 43.48],
+                ],
+            },
+            {
+                title: "3% Pixel Budget",
+                values: [
+                    [43.29, 43.47, 57.59, 44.83, 85.91, 79.63, 52.23, 69.21],
+                    [29.89, 27.95, 42.57, 32.71, 78.34, 71.12, 34.07, 52.96],
+                ],
+            },
+            {
+                title: "5% Pixel Budget",
+                values: [
+                    [56.70, 56.52, 68.96, 53.93, 89.98, 88.15, 68.44, 78.69],
+                    [34.02, 34.16, 49.01, 38.22, 81.09, 77.81, 44.97, 62.11],
+                ],
+            },
+        ];
+
+        const radarSize = 400;
+        const radarCenter = radarSize / 2;
+        const radarRadius = 148;
+        const radarVisible = [true, true];
+
+        radarBudgets.forEach((budget) => {
+            const rawMax = Math.max(...budget.values.flat());
+            budget.maxValue = Math.ceil(rawMax / 10) * 10;
+            const step = budget.maxValue / 5;
+            budget.grid = Array.from({ length: 5 }, (_, i) => Math.round(step * (i + 1)));
+        });
+
+        function radarValueToRadius(value, maxValue) {
+            return (value / maxValue) * radarRadius;
+        }
+
+        function radarPoint(angle, radius) {
+            return {
+                x: radarCenter + radius * Math.sin(angle),
+                y: radarCenter - radius * Math.cos(angle),
+            };
+        }
+
+        function radarHexToRgb(hex) {
+            const r = parseInt(hex.slice(1, 3), 16);
+            const g = parseInt(hex.slice(3, 5), 16);
+            const b = parseInt(hex.slice(5, 7), 16);
+            return `${r}, ${g}, ${b}`;
+        }
+
+        function drawRadarChart(canvas, budget) {
+            const ctx = canvas.getContext("2d");
+            ctx.clearRect(0, 0, radarSize, radarSize);
+            const angles = Array.from({ length: radarCategories.length }, (_, i) => (2 * Math.PI * i) / radarCategories.length);
+
+            budget.grid.forEach((gridValue) => {
+                const radius = radarValueToRadius(gridValue, budget.maxValue);
+                ctx.beginPath();
+                angles.forEach((angle, index) => {
+                    const point = radarPoint(angle, radius);
+                    index === 0 ? ctx.moveTo(point.x, point.y) : ctx.lineTo(point.x, point.y);
+                });
+                ctx.closePath();
+                ctx.strokeStyle = "#dde2f0";
+                ctx.lineWidth = 1;
+                ctx.stroke();
+
+                ctx.fillStyle = "#b8bdd0";
+                ctx.font = "9px monospace";
+                ctx.textAlign = "left";
+                ctx.fillText(gridValue, radarCenter + 4, radarCenter - radius + 3);
+            });
+
+            angles.forEach((angle) => {
+                const outer = radarPoint(angle, radarRadius);
+                ctx.beginPath();
+                ctx.moveTo(radarCenter, radarCenter);
+                ctx.lineTo(outer.x, outer.y);
+                ctx.strokeStyle = "#dde2f0";
+                ctx.lineWidth = 1;
+                ctx.stroke();
+            });
+
+            [...radarSeries].reverse().forEach((series, reversedIndex) => {
+                const seriesIndex = radarSeries.length - 1 - reversedIndex;
+                if (!radarVisible[seriesIndex]) {
+                    return;
+                }
+
+                const points = budget.values[seriesIndex].map((value, index) => radarPoint(angles[index], radarValueToRadius(value, budget.maxValue)));
+
+                ctx.beginPath();
+                points.forEach((point, index) => index === 0 ? ctx.moveTo(point.x, point.y) : ctx.lineTo(point.x, point.y));
+                ctx.closePath();
+                ctx.fillStyle = `rgba(${radarHexToRgb(series.color)}, 0.16)`;
+                ctx.fill();
+
+                ctx.beginPath();
+                points.forEach((point, index) => index === 0 ? ctx.moveTo(point.x, point.y) : ctx.lineTo(point.x, point.y));
+                ctx.closePath();
+                ctx.strokeStyle = series.color;
+                ctx.lineWidth = 2;
+                ctx.stroke();
+
+                points.forEach((point, index) => {
+                    ctx.beginPath();
+                    ctx.arc(point.x, point.y, 4, 0, Math.PI * 2);
+                    ctx.fillStyle = series.color;
+                    ctx.fill();
+                    ctx.strokeStyle = "#fff";
+                    ctx.lineWidth = 1.25;
+                    ctx.stroke();
+
+                    const labelRadius = radarValueToRadius(budget.values[seriesIndex][index], budget.maxValue) + 12;
+                    const labelPoint = radarPoint(angles[index], labelRadius);
+                    ctx.fillStyle = series.color;
+                    ctx.font = "bold 8px monospace";
+                    ctx.textAlign = "center";
+                    ctx.textBaseline = "middle";
+                    ctx.fillText(budget.values[seriesIndex][index].toFixed(2), labelPoint.x, labelPoint.y);
+                });
+            });
+
+            radarCategories.forEach((category, index) => {
+                const labelPoint = radarPoint(angles[index], radarRadius + 28);
+                const lines = category.split("\n");
+                ctx.fillStyle = "#4a5068";
+                ctx.font = "600 10px 'Source Sans 3', sans-serif";
+                ctx.textAlign = "center";
+                ctx.textBaseline = "middle";
+                lines.forEach((line, lineIndex) => {
+                    const offset = (lineIndex - (lines.length - 1) / 2) * 12;
+                    ctx.fillText(line, labelPoint.x, labelPoint.y + offset);
+                });
+            });
+        }
+
+        const radarRoot = document.getElementById("radar-results-root");
+        const radarCanvases = [];
+
+        if (radarRoot) {
+            radarBudgets.forEach((budget) => {
+                const card = document.createElement("article");
+                card.className = "radar-card";
+                card.innerHTML = `
+                    <p class="radar-card__title">${budget.title}</p>
+                    <canvas class="radar-card__canvas" width="400" height="400"></canvas>
+                `;
+                radarRoot.appendChild(card);
+                const canvas = card.querySelector("canvas");
+                radarCanvases.push({ canvas, budget });
+                drawRadarChart(canvas, budget);
+            });
+        }
+
+        const radarLegend = document.getElementById("radar-legend");
+        if (radarLegend) {
+            radarLegend.querySelectorAll(".radar-legend__item").forEach((item) => {
+                item.addEventListener("click", () => {
+                    const seriesIndex = Number(item.dataset.idx);
+                    radarVisible[seriesIndex] = !radarVisible[seriesIndex];
+                    item.classList.toggle("is-active", radarVisible[seriesIndex]);
+                    radarCanvases.forEach(({ canvas, budget }) => drawRadarChart(canvas, budget));
+                });
+            });
         }
     </script>
 </body>

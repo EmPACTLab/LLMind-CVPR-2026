@@ -1,0 +1,328 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Prediction Outcomes — Pixel Budgets</title>
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #f0f2f8;
+    --surface: #ffffff;
+    --border: #e0e4f0;
+    --text: #1a1d27;
+    --muted: #7a8099;
+    --correct: #6ab187;
+    --wrong: #e8716a;
+    --partial: #f0c355;
+    --correct-dark: #3d7a5a;
+    --wrong-dark: #b83028;
+    --partial-dark: #a07010;
+  }
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    background: #ffffff;
+    font-family: 'Outfit', sans-serif;
+    color: var(--text);
+    padding: 40px 28px 60px;
+  }
+  h1 {
+    text-align: center;
+    font-size: 1.35rem;
+    font-weight: 700;
+    margin-bottom: 6px;
+  }
+  .subtitle {
+    text-align: center;
+    font-size: 0.8rem;
+    color: var(--muted);
+    font-family: 'DM Mono', monospace;
+    margin-bottom: 28px;
+  }
+  /* Top legend */
+  .legend {
+    display: flex; gap: 20px; justify-content: center;
+    flex-wrap: wrap; margin-bottom: 36px;
+  }
+  .legend-item {
+    display: flex; align-items: center; gap: 8px;
+    font-size: 0.82rem; font-weight: 500; color: var(--text);
+    padding: 6px 16px;
+    border-radius: 99px;
+    border: 1.5px solid var(--border);
+    background: var(--surface);
+  }
+  .legend-dot { width: 12px; height: 12px; border-radius: 50%; flex-shrink: 0; }
+
+  /* Budget tabs */
+  .tabs {
+    display: flex; gap: 8px; justify-content: center;
+    margin-bottom: 32px; flex-wrap: wrap;
+  }
+  .tab {
+    padding: 8px 22px; border-radius: 99px;
+    border: 1.5px solid var(--border);
+    background: var(--surface);
+    font-size: 0.85rem; font-weight: 600;
+    cursor: pointer; color: var(--muted);
+    transition: all 0.15s;
+  }
+  .tab.active {
+    background: var(--text); color: #fff;
+    border-color: var(--text);
+  }
+
+  /* Chart pair */
+  .pair {
+    display: flex; gap: 32px; justify-content: center;
+    flex-wrap: wrap; align-items: flex-start;
+  }
+  .chart-wrap {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 18px;
+    padding: 28px 24px 22px;
+    display: flex; flex-direction: column; align-items: center;
+    box-shadow: 0 2px 20px rgba(0,0,0,0.055);
+    width: 280px;
+    transition: box-shadow 0.2s;
+  }
+  .chart-wrap:hover { box-shadow: 0 6px 32px rgba(0,0,0,0.10); }
+  .chart-name {
+    font-size: 0.88rem; font-weight: 700;
+    color: var(--text); margin-bottom: 18px;
+    letter-spacing: 0.01em;
+  }
+  .donut-container {
+    position: relative; width: 190px; height: 190px;
+  }
+  canvas { display: block; }
+  .donut-center {
+    position: absolute; top: 50%; left: 50%;
+    transform: translate(-50%, -50%);
+    text-align: center; pointer-events: none;
+  }
+  .donut-center .center-label {
+    font-size: 0.65rem; color: var(--muted);
+    font-family: 'DM Mono', monospace; letter-spacing: 0.04em;
+    text-transform: uppercase;
+  }
+  .donut-center .center-value {
+    font-size: 1.5rem; font-weight: 700;
+    color: var(--correct-dark);
+    line-height: 1.1;
+  }
+
+  /* Stat bars below each donut */
+  .stat-bars { width: 100%; margin-top: 18px; display: flex; flex-direction: column; gap: 8px; }
+  .stat-row { display: flex; align-items: center; gap: 8px; }
+  .stat-label { font-size: 0.72rem; color: var(--muted); width: 90px; font-family: 'DM Mono', monospace; flex-shrink: 0; }
+  .stat-track { flex: 1; height: 8px; background: var(--border); border-radius: 99px; overflow: hidden; }
+  .stat-fill { height: 100%; border-radius: 99px; transition: width 0.5s cubic-bezier(.23,1,.32,1); }
+  .stat-val { font-size: 0.72rem; font-weight: 600; width: 30px; text-align: right; font-family: 'DM Mono', monospace; }
+
+  /* Comparison delta strip */
+  .delta-strip {
+    display: flex; gap: 12px; justify-content: center;
+    flex-wrap: wrap; margin-top: 28px;
+  }
+  .delta-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 14px 20px;
+    text-align: center;
+    min-width: 130px;
+  }
+  .delta-card .d-label { font-size: 0.7rem; color: var(--muted); font-family: 'DM Mono', monospace; margin-bottom: 4px; text-transform: uppercase; letter-spacing: 0.04em; }
+  .delta-card .d-val { font-size: 1.3rem; font-weight: 700; }
+  .delta-pos { color: var(--correct-dark); }
+  .delta-neg { color: var(--wrong-dark); }
+</style>
+</head>
+<body>
+
+<div class="tabs" id="tabs">
+  <div class="tab active" data-idx="0">1% Budget</div>
+  <div class="tab" data-idx="1">3% Budget</div>
+  <div class="tab" data-idx="2">5% Budget</div>
+  <div class="tab" data-idx="3">10% Budget</div>
+</div>
+
+<div class="pair" id="pair"></div>
+<div class="delta-strip" id="deltaStrip"></div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js"></script>
+<script>
+const COLORS = {
+  correct: '#6ab187',
+  wrong:   '#e8716a',
+  partial: '#f0c355',
+};
+
+const budgets = [
+  {
+    title: '1% Pixel Budget',
+    uniform: { correct: 15, wrong: 27, partial: 58 },
+    llmind:  { correct: 24, wrong: 21, partial: 55 },
+  },
+  {
+    title: '3% Pixel Budget',
+    uniform: { correct: 19, wrong: 26, partial: 55 },
+    llmind:  { correct: 34, wrong: 14, partial: 52 },
+  },
+  {
+    title: '5% Pixel Budget',
+    uniform: { correct: 21, wrong: 24, partial: 55 },
+    llmind:  { correct: 41, wrong: 9,  partial: 50 },
+  },
+  {
+    title: '10% Pixel Budget',
+    uniform: { correct: 25, wrong: 22, partial: 53 },
+    llmind:  { correct: 44, wrong: 9,  partial: 47 },
+  },
+];
+
+let charts = [];
+let activeIdx = 0;
+
+function buildDonut(canvasId, data, centerVal) {
+  const ctx = document.getElementById(canvasId).getContext('2d');
+  return new Chart(ctx, {
+    type: 'doughnut',
+    data: {
+      labels: ['Correct', 'Wrong', 'Partially Correct'],
+      datasets: [{
+        data: [data.correct, data.wrong, data.partial],
+        backgroundColor: [COLORS.correct, COLORS.wrong, COLORS.partial],
+        borderColor: '#ffffff',
+        borderWidth: 3,
+        hoverBorderWidth: 3,
+        hoverOffset: 8,
+      }]
+    },
+    options: {
+      responsive: false,
+      cutout: '60%',
+      plugins: {
+        legend: { display: false },
+        tooltip: {
+          callbacks: {
+            label: ctx => ` ${ctx.label}: ${ctx.parsed}%`
+          },
+          backgroundColor: '#1a1d27',
+          titleFont: { family: 'DM Mono', size: 11 },
+          bodyFont: { family: 'DM Mono', size: 12 },
+          padding: 10,
+          cornerRadius: 8,
+        }
+      },
+      animation: { duration: 500, easing: 'easeInOutQuart' },
+    }
+  });
+}
+
+function buildChart(idx) {
+  // Clear old charts
+  charts.forEach(c => c.destroy());
+  charts = [];
+  document.getElementById('pair').innerHTML = '';
+  document.getElementById('deltaStrip').innerHTML = '';
+
+  const b = budgets[idx];
+  const series = [
+    { name: 'Uniform Sampling', data: b.uniform },
+    { name: 'LLMind (Ours)',    data: b.llmind  },
+  ];
+
+  series.forEach((s, si) => {
+    const wrap = document.createElement('div');
+    wrap.className = 'chart-wrap';
+
+    const nameEl = document.createElement('div');
+    nameEl.className = 'chart-name';
+    nameEl.textContent = s.name;
+    wrap.appendChild(nameEl);
+
+    const container = document.createElement('div');
+    container.className = 'donut-container';
+
+    const canvas = document.createElement('canvas');
+    canvas.id = `donut-${si}`;
+    canvas.width = 190; canvas.height = 190;
+    container.appendChild(canvas);
+
+    const center = document.createElement('div');
+    center.className = 'donut-center';
+    center.innerHTML = `<div class="center-label">Correct</div><div class="center-value">${s.data.correct}%</div>`;
+    container.appendChild(center);
+
+    wrap.appendChild(container);
+
+    // Stat bars
+    const bars = document.createElement('div');
+    bars.className = 'stat-bars';
+
+    const items = [
+      { label: 'Correct',    val: s.data.correct, color: COLORS.correct },
+      { label: 'Wrong',      val: s.data.wrong,   color: COLORS.wrong   },
+      { label: 'Partial',    val: s.data.partial, color: COLORS.partial },
+    ];
+    items.forEach(it => {
+      const row = document.createElement('div');
+      row.className = 'stat-row';
+      row.innerHTML = `
+        <div class="stat-label">${it.label}</div>
+        <div class="stat-track"><div class="stat-fill" style="width:${it.val}%;background:${it.color}"></div></div>
+        <div class="stat-val" style="color:${it.color}">${it.val}%</div>
+      `;
+      bars.appendChild(row);
+    });
+    wrap.appendChild(bars);
+    document.getElementById('pair').appendChild(wrap);
+
+    const c = buildDonut(`donut-${si}`, s.data);
+    charts.push(c);
+  });
+
+  // Delta cards
+  const deltaData = [
+    { label: 'Correct ↑',   val: b.llmind.correct - b.uniform.correct, betterWhenHigher: true  },
+    { label: 'Wrong ↓',     val: b.llmind.wrong   - b.uniform.wrong,   betterWhenHigher: false },
+    { label: 'Partial',     val: b.llmind.partial - b.uniform.partial, betterWhenHigher: false },
+  ];
+
+  const strip = document.getElementById('deltaStrip');
+  const intro = document.createElement('div');
+  intro.style.cssText = 'width:100%;text-align:center;font-size:0.78rem;color:var(--muted);font-family:DM Mono,monospace;margin-bottom:4px;letter-spacing:0.04em;text-transform:uppercase;';
+  intro.textContent = 'LLMind vs Uniform — difference';
+  strip.appendChild(intro);
+
+  const row = document.createElement('div');
+  row.style.cssText = 'display:flex;gap:12px;justify-content:center;flex-wrap:wrap;';
+  deltaData.forEach(d => {
+    const card = document.createElement('div');
+    card.className = 'delta-card';
+    const sign  = d.val > 0 ? '+' : '';
+    const improved = d.betterWhenHigher ? d.val > 0 : d.val < 0;
+    const cls = improved ? 'delta-pos' : 'delta-neg';
+    card.innerHTML = `<div class="d-label">${d.label}</div><div class="d-val ${cls}">${sign}${d.val}pp</div>`;
+    row.appendChild(card);
+  });
+  strip.appendChild(row);
+}
+
+// Tabs
+document.querySelectorAll('.tab').forEach(tab => {
+  tab.addEventListener('click', () => {
+    document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+    tab.classList.add('active');
+    activeIdx = parseInt(tab.dataset.idx);
+    buildChart(activeIdx);
+  });
+});
+
+buildChart(0);
+</script>
+</body>
+</html>
