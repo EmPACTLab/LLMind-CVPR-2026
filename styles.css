@@ -260,14 +260,14 @@ a:hover {
 }
 
 .affiliation a {
-    color: #8ea4be;
+    color: var(--accent);
     text-decoration: none;
     transition: color 160ms ease, transform 160ms ease;
     display: inline-block;
 }
 
 .affiliation a:hover {
-    color: #b4c4d6;
+    color: var(--accent);
     transform: translateY(-1px);
 }
 
