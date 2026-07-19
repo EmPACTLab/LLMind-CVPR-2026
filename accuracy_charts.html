@@ -4,58 +4,30 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Accuracy Sampled — VQAv2 · A-OKVQA · Seed Bench</title>
-<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Mono:wght@400;500&family=DM+Sans:wght@300;400;600&display=swap" rel="stylesheet">
-<script>
-  (function () {
-    const themes = [
-      { accent: "#1f3a5f", soft: "#3a5e90", rgb: "31, 58, 95", blob: "#8ea5c5" },
-      { accent: "#82073c", soft: "#a11258", rgb: "130, 7, 60", blob: "#bb6a8d" },
-      { accent: "#1f6b46", soft: "#309965", rgb: "31, 107, 70", blob: "#84c5a3" },
-      { accent: "#5c4033", soft: "#8a624d", rgb: "92, 64, 51", blob: "#c6ab99" },
-      { accent: "#b34700", soft: "#d4651a", rgb: "179, 71, 0", blob: "#d79a72" },
-      { accent: "#4b2e83", soft: "#7050ad", rgb: "75, 46, 131", blob: "#ae9bcc" },
-    ];
-    let selected = null;
-    try {
-      selected = JSON.parse(localStorage.getItem("llmindAccentTheme") || "null");
-    } catch (err) {}
-    if (!selected) {
-      selected = themes[Math.floor(Math.random() * themes.length)];
-      try { localStorage.setItem("llmindAccentTheme", JSON.stringify(selected)); } catch (err) {}
-    }
-    const root = document.documentElement;
-    root.style.setProperty("--accent", selected.accent);
-    root.style.setProperty("--accent-soft", selected.soft);
-    root.style.setProperty("--accent-rgb", selected.rgb);
-  })();
-</script>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
   :root {
-    --bg: #f5f8fe;
-    --surface: rgba(255, 255, 255, 0.9);
-    --border: rgba(20, 35, 64, 0.12);
-    --text: #172742;
-    --muted: #607090;
-    --accent: #82073c;
-    --accent-soft: #a11258;
-    --accent-rgb: 130, 7, 60;
+    --bg: #f7f8fa;
+    --surface: #ffffff;
+    --border: #d9dee7;
+    --text: #111827;
+    --muted: #5f6b7a;
+    --accent: #7a1f2b;
+    --accent-soft: #9f2f3e;
 
-    --c1: #3a7ec8;
-    --c2: #2e9e5e;
-    --c3: #d4621a;
-    --c4: #a83d91;
-    --c5: #b06a00;
+    --c1: #2f5f8f;
+    --c2: #2f7d5c;
+    --c3: #9a6a20;
+    --c4: #6b5b95;
+    --c5: #8a1538;
   }
 
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
   body {
-    background:
-      radial-gradient(920px 340px at -8% -12%, rgba(var(--accent-rgb), 0.14), transparent 64%),
-      radial-gradient(860px 340px at 108% -10%, rgba(217, 131, 78, 0.14), transparent 62%),
-      linear-gradient(166deg, #f8fbff 0%, var(--bg) 100%);
+    background: var(--bg);
     color: var(--text);
-    font-family: 'DM Sans', sans-serif;
+    font-family: 'Inter', sans-serif;
     padding: 34px 16px 40px;
     min-height: 100vh;
   }
@@ -66,18 +38,18 @@
   }
 
   header h1 {
-    font-family: 'Bebas Neue', sans-serif;
-    font-size: clamp(1.8rem, 6vw, 2.8rem);
-    letter-spacing: 0.06em;
-    color: var(--accent);
-    line-height: 1;
+    font-size: clamp(1.35rem, 4vw, 1.9rem);
+    letter-spacing: 0;
+    color: var(--text);
+    line-height: 1.15;
+    font-weight: 700;
   }
 
   header p {
     margin-top: 6px;
     color: var(--muted);
     font-size: 0.72rem;
-    font-family: 'DM Mono', monospace;
+    font-family: 'IBM Plex Mono', monospace;
     letter-spacing: 0.03em;
   }
 
@@ -94,12 +66,12 @@
     align-items: center;
     gap: 8px;
     font-size: 0.68rem;
-    font-family: 'DM Mono', monospace;
+    font-family: 'IBM Plex Mono', monospace;
     color: #4f607f;
     border: 1px solid var(--border);
-    border-radius: 999px;
+    border-radius: 6px;
     padding: 6px 9px;
-    background: rgba(255, 255, 255, 0.7);
+    background: #ffffff;
   }
 
   .legend-dot {
@@ -114,7 +86,7 @@
   }
 
   .dataset-label {
-    font-family: 'DM Mono', monospace;
+    font-family: 'IBM Plex Mono', monospace;
     font-size: 0.72rem;
     letter-spacing: 0.1em;
     color: #2a3f63;
@@ -134,15 +106,14 @@
   .chart-card {
     background: var(--surface);
     border: 1px solid var(--border);
-    border-radius: 14px;
+    border-radius: 8px;
     padding: 12px 10px 10px;
-    box-shadow: 0 8px 18px rgba(16, 32, 58, 0.09);
-    backdrop-filter: blur(6px);
+    box-shadow: 0 8px 18px rgba(17, 24, 39, 0.05);
   }
 
   .chart-title {
     font-size: 0.62rem;
-    font-family: 'DM Mono', monospace;
+    font-family: 'IBM Plex Mono', monospace;
     color: #607090;
     letter-spacing: 0.06em;
     text-transform: uppercase;
@@ -159,7 +130,7 @@
   .chart-fullres {
     font-size: 0.62rem;
     color: #6a7b99;
-    font-family: 'DM Mono', monospace;
+    font-family: 'IBM Plex Mono', monospace;
     margin-bottom: 10px;
   }
 
@@ -177,7 +148,7 @@
 
   .col-header {
     font-size: 0.57rem;
-    font-family: 'DM Mono', monospace;
+    font-family: 'IBM Plex Mono', monospace;
     color: var(--muted);
     text-align: center;
     letter-spacing: 0.03em;
@@ -197,7 +168,7 @@
 
   .method-name {
     font-size: 0.57rem;
-    font-family: 'DM Mono', monospace;
+    font-family: 'IBM Plex Mono', monospace;
     color: #5d6f90;
     padding-right: 6px;
     line-height: 1.15;
@@ -213,14 +184,14 @@
 
   .bar-fill {
     height: 9px;
-    border-radius: 99px;
+    border-radius: 4px;
     min-width: 2px;
     width: 100%;
   }
 
   .bar-value {
     font-size: 0.52rem;
-    font-family: 'DM Mono', monospace;
+    font-family: 'IBM Plex Mono', monospace;
     color: #677897;
     white-space: nowrap;
     text-align: center;

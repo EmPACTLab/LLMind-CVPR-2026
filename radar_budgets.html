@@ -4,55 +4,27 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>A-OKVQA Category-wise Performance — Pixel Budgets</title>
-<link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Outfit:wght@300;400;600;700&display=swap" rel="stylesheet">
-<script>
-  (function () {
-    const themes = [
-      { accent: "#1f3a5f", soft: "#3a5e90", rgb: "31, 58, 95", blob: "#8ea5c5" },
-      { accent: "#82073c", soft: "#a11258", rgb: "130, 7, 60", blob: "#bb6a8d" },
-      { accent: "#1f6b46", soft: "#309965", rgb: "31, 107, 70", blob: "#84c5a3" },
-      { accent: "#5c4033", soft: "#8a624d", rgb: "92, 64, 51", blob: "#c6ab99" },
-      { accent: "#b34700", soft: "#d4651a", rgb: "179, 71, 0", blob: "#d79a72" },
-      { accent: "#4b2e83", soft: "#7050ad", rgb: "75, 46, 131", blob: "#ae9bcc" },
-    ];
-    let selected = null;
-    try {
-      selected = JSON.parse(localStorage.getItem("llmindAccentTheme") || "null");
-    } catch (err) {}
-    if (!selected) {
-      selected = themes[Math.floor(Math.random() * themes.length)];
-      try { localStorage.setItem("llmindAccentTheme", JSON.stringify(selected)); } catch (err) {}
-    }
-    const root = document.documentElement;
-    root.style.setProperty("--accent", selected.accent);
-    root.style.setProperty("--accent-soft", selected.soft);
-    root.style.setProperty("--accent-rgb", selected.rgb);
-  })();
-</script>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
   :root {
-    --bg: #f4f7fd;
-    --surface: rgba(255, 255, 255, 0.9);
-    --border: rgba(20, 35, 64, 0.12);
-    --text: #1a2c4b;
-    --muted: #5f7091;
-    --c-full: #7eb87e;
-    --c-llmind: #f07050;
-    --c-uniform: #888077;
-    --accent: #82073c;
-    --accent-soft: #a11258;
-    --accent-rgb: 130, 7, 60;
+    --bg: #f7f8fa;
+    --surface: #ffffff;
+    --border: #d9dee7;
+    --text: #111827;
+    --muted: #5f6b7a;
+    --c-full: #6b8f71;
+    --c-llmind: #8a1538;
+    --c-uniform: #64748b;
+    --accent: #7a1f2b;
+    --accent-soft: #9f2f3e;
   }
 
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
   body {
-    background:
-      radial-gradient(760px 300px at -8% -10%, rgba(var(--accent-rgb), 0.14), transparent 65%),
-      radial-gradient(720px 300px at 112% -8%, rgba(217, 131, 78, 0.13), transparent 62%),
-      linear-gradient(165deg, #f7faff 0%, var(--bg) 100%);
+    background: var(--bg);
     color: var(--text);
-    font-family: 'Outfit', sans-serif;
+    font-family: 'Inter', sans-serif;
     padding: 26px 14px 34px;
     min-height: 100vh;
   }
@@ -69,7 +41,7 @@
   header p {
     font-size: 0.72rem;
     color: var(--muted);
-    font-family: 'DM Mono', monospace;
+    font-family: 'IBM Plex Mono', monospace;
     margin-top: 4px;
     margin-bottom: 18px;
     letter-spacing: 0.03em;
@@ -92,16 +64,15 @@
     font-weight: 600;
     cursor: pointer;
     padding: 7px 12px;
-    border-radius: 999px;
+    border-radius: 6px;
     border: 1px solid var(--border);
-    background: rgba(255, 255, 255, 0.7);
-    transition: transform 160ms ease, box-shadow 160ms ease, opacity 160ms ease;
+    background: #ffffff;
+    transition: border-color 160ms ease, opacity 160ms ease;
     user-select: none;
   }
 
   .legend-item:hover {
-    transform: translateY(-1px);
-    box-shadow: 0 8px 16px rgba(17, 32, 58, 0.1);
+    border-color: currentColor;
   }
 
   .legend-item.active { border-color: currentColor; }
@@ -123,18 +94,17 @@
   .chart-card {
     background: var(--surface);
     border: 1px solid var(--border);
-    border-radius: 16px;
+    border-radius: 8px;
     padding: 14px 10px 10px;
-    box-shadow: 0 10px 22px rgba(16, 32, 58, 0.1);
+    box-shadow: 0 8px 18px rgba(17, 24, 39, 0.05);
     display: flex;
     flex-direction: column;
     align-items: center;
-    backdrop-filter: blur(6px);
   }
 
   .card-label {
     font-size: 0.78rem;
-    font-family: 'DM Mono', monospace;
+    font-family: 'IBM Plex Mono', monospace;
     font-weight: 700;
     color: #1f355b;
     margin-bottom: 8px;
@@ -153,7 +123,7 @@
     padding: 8px 12px;
     border-radius: 8px;
     font-size: 0.68rem;
-    font-family: 'DM Mono', monospace;
+    font-family: 'IBM Plex Mono', monospace;
     pointer-events: none;
     opacity: 0;
     transition: opacity 0.12s;
@@ -181,11 +151,11 @@
 
 <!-- Legend -->
 <div class="legend" id="legend">
-  <div class="legend-item active" data-idx="0" style="color:#f07050">
-    <div class="legend-dot" style="background:#f07050"></div>LLMind (Ours)
+  <div class="legend-item active" data-idx="0" style="color:#8a1538">
+    <div class="legend-dot" style="background:#8a1538"></div>LLMind (Ours)
   </div>
-  <div class="legend-item active" data-idx="1" style="color:#888077">
-    <div class="legend-dot" style="background:#888077"></div>Uniform Sampled
+  <div class="legend-item active" data-idx="1" style="color:#64748b">
+    <div class="legend-dot" style="background:#64748b"></div>Uniform Sampled
   </div>
 </div>
 
@@ -207,8 +177,8 @@ const categories = [
 ];
 
 const SERIES = [
-  { label: "LLMind (Ours)",    color: "#f07050" },
-  { label: "Uniform Sampled",  color: "#888077" },
+  { label: "LLMind (Ours)",    color: "#8a1538" },
+  { label: "Uniform Sampled",  color: "#64748b" },
 ];
 
 // Values: [LLMind (Ours), Uniform Sampled]
@@ -302,7 +272,7 @@ function drawRadar(canvas, budget, highlightSeries) {
     ctx.stroke();
     // Grid value label
     ctx.fillStyle = "#b8bdd0";
-    ctx.font = "9px DM Mono, monospace";
+    ctx.font = "9px IBM Plex Mono, monospace";
     ctx.textAlign = "left";
     ctx.fillText(val, CX + 4, CY - r + 3);
   });
@@ -361,7 +331,7 @@ function drawRadar(canvas, budget, highlightSeries) {
         const labelR = valToR(val, budget.maxV) + 12;
         const lp = toXY(angles[ci], labelR);
         ctx.fillStyle = `rgba(${hexToRgb(s.color)},0.9)`;
-        ctx.font = "bold 8.5px DM Mono, monospace";
+        ctx.font = "bold 8.5px IBM Plex Mono, monospace";
         ctx.textAlign = "center";
         ctx.textBaseline = "middle";
         ctx.fillText(val.toFixed(2), lp.x, lp.y);
@@ -374,7 +344,7 @@ function drawRadar(canvas, budget, highlightSeries) {
     const a = angles[i];
     const lp = toXY(a, R + 28);
     ctx.fillStyle = "#4a5068";
-    ctx.font = "600 10.5px Outfit, sans-serif";
+    ctx.font = "600 10.5px Inter, sans-serif";
     ctx.textAlign = "center";
     ctx.textBaseline = "middle";
     const lines = cat.split("\n");

@@ -5,106 +5,78 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>LLMind</title>
     <meta name="description" content="LLMind: Bio-inspired Training-free Adaptive Visual Representations for Vision-Language Models">
-    <script>
-        (function () {
-            const themes = [
-                { name: "Navy", accent: "#1f3a5f", soft: "#3a5e90", rgb: "31, 58, 95", blob: "#8ea5c5" },
-                { name: "Pink", accent: "#82073c", soft: "#a11258", rgb: "130, 7, 60", blob: "#bb6a8d" },
-                { name: "Dark Green", accent: "#1f6b46", soft: "#309965", rgb: "31, 107, 70", blob: "#84c5a3" },
-                { name: "Dark Brown", accent: "#5c4033", soft: "#8a624d", rgb: "92, 64, 51", blob: "#c6ab99" },
-                { name: "Dark Orange", accent: "#b34700", soft: "#d4651a", rgb: "179, 71, 0", blob: "#d79a72" },
-                { name: "Dark Violet", accent: "#4b2e83", soft: "#7050ad", rgb: "75, 46, 131", blob: "#ae9bcc" },
-            ];
-            const selected = themes[Math.floor(Math.random() * themes.length)];
-            const root = document.documentElement;
-            root.style.setProperty("--accent", selected.accent);
-            root.style.setProperty("--accent-soft", selected.soft);
-            root.style.setProperty("--accent-rgb", selected.rgb);
-            root.style.setProperty("--accent-blob", selected.blob);
-            try {
-                localStorage.setItem("llmindAccentTheme", JSON.stringify(selected));
-            } catch (err) {
-                /* no-op */
-            }
-        })();
-    </script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700&family=Manrope:wght@400;500;600;700;800&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
     <link rel="icon" href="files/icons/box.png" type="image/png">
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
     <div class="site">
-        <header class="masthead">
-            <div class="masthead__inner">
-                <h1 class="title animate-in animate-in--1">
+        <nav class="top-nav" aria-label="Primary navigation">
+            <div class="top-nav__inner">
+                <a class="top-nav__brand" href="#top" aria-label="LLMind home">
+                    <img class="brand-mark" src="files/icons/llmind.png" alt="" aria-hidden="true">
                     <span>LLMind</span>
-                </h1>
-                <p class="subtitle animate-in animate-in--2">Bio-inspired Training-free Adaptive Visual Representations for<br>Vision-Language Models</p>
-                <p class="venue animate-in animate-in--3"><span>CVPR 2026 HIGHLIGHT</span></p>
-                <div class="title-rule animate-in animate-in--4" aria-hidden="true"></div>
+                </a>
+                <div class="top-nav__links">
+                    <a href="#abstract">Abstract</a>
+                    <a href="#motivation">Motivation</a>
+                    <a href="#overview">Method</a>
+                    <a href="#quantitative-results">Results</a>
+                    <!-- <a href="#qualitative-results">LLMind in Action</a> -->
+                    <a href="#citation">Citation</a>
+                </div>
+                <div class="top-nav__actions">
+                    <a href="http://arxiv.org/abs/2603.14882">arXiv</a>
+                    <a href="https://github.com/SoumyaratnaDebnath/LLMind-CVPR-2026">Code</a>
+                </div>
+            </div>
+        </nav>
 
-                <div class="authors animate-in animate-in--5">
-                    <a class="author-pill" href="https://scholar.google.com/citations?user=jxCqchYAAAAJ&hl=en">
-                        <span class="author-pill__photo-frame">
-                            <img class="author-pill__photo" src="files/author-pics/Soumyaratna.jpg" alt="Portrait of Soumyaratna Debnath" style="--photo-scale: 2.5; --photo-offset-x: -5%; --photo-offset-y: 30%;">
-                        </span>
-                        <span>Soumyaratna Debnath</span>
-                    </a>
-                    <a class="author-pill" href="https://scholar.google.com/citations?user=uVkZcmoAAAAJ&hl=en">
-                        <span class="author-pill__photo-frame">
-                            <img class="author-pill__photo" src="files/author-pics/Bui Duc Manh.jpg" alt="Portrait of Bui Duc Manh" style="--photo-scale: 2; --photo-offset-x: 15%; --photo-offset-y: 40%;">
-                        </span>
-                        <span>Bui Duc Manh</span>
-                    </a>
-                    <a class="author-pill" href="https://scholar.google.com/citations?user=CQPk4msAAAAJ&hl=en">
-                        <span class="author-pill__photo-frame">
-                            <img class="author-pill__photo" src="files/author-pics/Liu Zinan.jpg" alt="Portrait of Zinan Liu" style="--photo-scale: 1.6; --photo-offset-x: -5%; --photo-offset-y: 30%;">
-                        </span>
-                        <span>Zinan Liu</span>
-                    </a>
-                    <a class="author-pill" href="https://scholar.google.com/citations?user=SReb2csAAAAJ&hl=en">
-                        <span class="author-pill__photo-frame">
-                            <img class="author-pill__photo" src="files/author-pics/Prof Wang.jpg" alt="Portrait of Lin Wang" style="--photo-scale: 1; --photo-offset-x: 0%; --photo-offset-y: 0%;">
-                        </span>
-                        <span>Lin Wang<sup class="author-mark">&dagger;</sup></span>
-                    </a>
+        <header class="masthead" id="top">
+            <div class="masthead__inner">
+                <div class="hero-copy">
+                    <p class="eyebrow"><span class="eyebrow__rule" aria-hidden="true"></span>CVPR 2026 Highlight</p>
+                    <h1 class="title animate-in animate-in--1">
+                        <span>LLMind: Bio-inspired</span>
+                        <span>Training-free Adaptive</span>
+                        <span>Visual Representations</span>
+                        <span>for Vision-Language</span>
+                        <span>Models</span>
+                    </h1>
+
+                    <p class="authors-inline animate-in animate-in--2">
+                        <a href="https://scholar.google.com/citations?user=jxCqchYAAAAJ&hl=en">Soumyaratna Debnath</a>,
+                        <a href="https://scholar.google.com/citations?user=uVkZcmoAAAAJ&hl=en">Bui Duc Manh</a>,
+                        <a href="https://scholar.google.com/citations?user=CQPk4msAAAAJ&hl=en">Zinan Liu</a>,
+                        <a href="https://scholar.google.com/citations?user=SReb2csAAAAJ&hl=en">Addison Lin Wang<sup class="author-mark">&dagger;</sup></a>
+                    </p>
+
+                    <p class="affiliation animate-in animate-in--3"><a href="https://empactlab.github.io/EmPACT-Lab/">EmPACT Lab, Nanyang Technological University, Singapore</a></p>
+
+                    <p class="tldr animate-in animate-in--4"><strong>TL;DR</strong> Training-free adaptive sampling reallocates limited visual pixels toward question-relevant regions for efficient VLM reasoning.</p>
+
+                    <nav class="links animate-in animate-in--5" aria-label="Paper resources">
+                        <a class="link-primary" href="https://openaccess.thecvf.com/content/CVPR2026/papers/Debnath_LLMind_Bio-inspired_Training-free_Adaptive_Visual_Representations_for_Vision-Language_Models_CVPR_2026_paper.pdf">Read paper →</a>
+                        <a href="https://www.youtube.com/watch?v=VJ4t-UOlpLQ">Watch video →</a>
+                        <a href="https://github.com/SoumyaratnaDebnath/LLMind-CVPR-2026">View code →</a>
+                        <a href="./files/docs/LLMind_supp.pdf">Supplementary →</a>
+                    </nav>
+
+                    <p class="author-footnote animate-in animate-in--6"><sup class="author-mark author-mark--footnote">&dagger;</sup> Corresponding author</p>
                 </div>
 
-                <p class="affiliation animate-in animate-in--6"><a href="https://empactlab.github.io/EmPACT-Lab/">EmPACT Lab, Nanyang Technological University, Singapore</a></p>
-
-                <nav class="links animate-in animate-in--7" aria-label="Paper resources">
-                    <a href="http://arxiv.org/abs/2603.14882">
-                        <span class="link-icon" aria-hidden="true">
-                            <svg class="link-icon__svg" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
-                                <path d="M7 2.5h7.5L19 7v14.5H7z" fill="currentColor"></path>
-                                <path d="M14.5 2.5V7H19" fill="#fff"></path>
-                                <path d="M9.2 10.2h7.1M9.2 13h7.1M9.2 15.8h5.2" fill="none" stroke="#fff" stroke-width="1.4" stroke-linecap="round"></path>
-                            </svg>
-                        </span>
-                        <span>Paper</span>
+                <figure class="hero-media animate-in animate-in--6">
+                    <a class="hero-media__link" href="files/images/Poster.pdf" aria-label="Open LLMind poster PDF">
+                        <img class="hero-media__image" src="files/images/Poster-preview.png" alt="LLMind poster preview">
                     </a>
-                    <a href="https://www.youtube.com/watch?v=VJ4t-UOlpLQ">
-                        <span class="link-icon" aria-hidden="true">▶</span>
-                        <span>Video</span>
-                    </a>
-                    <a href="https://github.com/SoumyaratnaDebnath/LLMind-CVPR-2026">
-                        <span class="link-icon" aria-hidden="true">&lt;/&gt;</span>
-                        <span>Code</span>
-                    </a>
-                    <a href="./files/docs/LLMind_supp.pdf">
-                        <span class="link-icon" aria-hidden="true">⊕</span>
-                        <span>Supplementary</span>
-                    </a>
-                </nav>
-
-                <p class="author-footnote animate-in animate-in--7"><sup class="author-mark author-mark--footnote">&dagger;</sup> Corresponding author</p>
+                </figure>
             </div>
         </header>
 
         <main class="content">
-            <section class="section reveal" data-reveal>
+            <section class="section reveal" id="abstract" data-reveal>
                 <div class="section__header">
                     <h2>Abstract</h2>
                 </div>
@@ -113,23 +85,30 @@
                 </p>
             </section>
 
-            <section class="section reveal section--question" data-reveal>
-                <div class="research-question">
-                    <p class="research-question__eyebrow">Core Question</p>
-                    <p class="research-question__text">Can bio-inspired sampling strategies enable VLMs to achieve higher reasoning efficiency and accuracy than conventional uniform sampling under limited pixel budgets?</p>
-                </div>
-            </section>
-
-            <section class="section reveal" data-reveal>
+            <section class="section reveal" id="motivation" data-reveal>
                 <div class="section__header">
-                    <h2 style="margin-top: 25pt">Motivation</h2>
+                    <h2 style="margin-top: 0pt">Motivation</h2>
                 </div>
-                <p class="body-text">
-                    Modern Vision-Language Models typically process images using <strong>uniform spatial sampling</strong>, allocating <strong>equal resolution to every region</strong> regardless of its relevance. However, <strong>human vision operates differently</strong>: it concentrates <strong>high resolution in a small foveal region</strong> while maintaining <strong>coarse peripheral awareness</strong>, dynamically shifting attention to informative parts of a scene. Inspired by this principle, <strong>LLMind introduces a bio-inspired adaptive sampling strategy</strong> that <strong>redistributes spatial resolution across the image</strong>, magnifying <strong>semantically important regions</strong> while compressing <strong>less informative areas</strong> to enable <strong>efficient reasoning under strict pixel budgets</strong>.
-                </p>
+                <div class="motivation-question section--question">
+                    <div class="research-question">
+                        <p class="research-question__eyebrow">Core Question</p>
+                        <p class="research-question__text">Can bio-inspired sampling strategies enable VLMs to achieve higher reasoning efficiency and accuracy than conventional uniform sampling under limited pixel budgets?</p>
+                    </div>
+                </div>
+                <div class="motivation-layout">
+                    <figure class="autoplay-video-frame" oncontextmenu="return false;">
+                        <video class="autoplay-video" autoplay muted loop playsinline preload="auto" disablepictureinpicture disableremoteplayback tabindex="-1" aria-label="LLMind visual overview video">
+                            <source src="files/videos/LLMind-Video-for-LinkedIn-h264.mp4" type="video/mp4">
+                            <source src="files/videos/LLMind-Video-for-LinkedIn.mp4" type="video/mp4">
+                        </video>
+                    </figure>
+                    <p class="body-text">
+                        Modern Vision-Language Models typically process images using <strong>uniform spatial sampling</strong>, allocating <strong>equal resolution to every region</strong> regardless of its relevance. However, <strong>human vision operates differently</strong>: it concentrates <strong>high resolution in a small foveal region</strong> while maintaining <strong>coarse peripheral awareness</strong>, dynamically shifting attention to informative parts of a scene. Inspired by this principle, <strong>LLMind introduces a bio-inspired adaptive sampling strategy</strong> that <strong>redistributes spatial resolution across the image</strong>, magnifying <strong>semantically important regions</strong> while compressing <strong>less informative areas</strong> to enable <strong>efficient reasoning under strict pixel budgets</strong>.
+                    </p>
+                </div>
             </section>
 
-            <section class="section reveal" data-reveal>
+            <section class="section reveal" id="overview" data-reveal>
                 <div class="section__header">
                     <h2>Overview</h2>
                 </div>
@@ -177,7 +156,7 @@
                 </div>
             </section>
 
-            <section class="section reveal" data-reveal>
+            <section class="section reveal" id="quantitative-results" data-reveal>
                 <div class="section__header">
                     <h2>Quantitative Results</h2>
                 </div>
@@ -197,7 +176,7 @@
                 </div>
             </section>
 
-            <section class="section reveal" data-reveal>
+            <section class="section reveal" id="qualitative-results" data-reveal>
                 <div class="section__header">
                     <h2>Qualitative Results</h2>
                 </div>
@@ -215,7 +194,7 @@
                 </div>
             </section>
 
-            <section class="section reveal" data-reveal>
+            <section class="section reveal" id="category-wise-performance" data-reveal>
                 <div class="section__header">
                     <h2>Category-wise Performance</h2>
                 </div>
@@ -224,18 +203,18 @@
                         Comparison of <strong>LLMind</strong> against <strong>Uniform Sampled</strong> across A-OKVQA question categories using <strong>Qwen2.5-VL</strong> under three pixel budgets. The plots below shows how performance changes category-by-category as the visual budget increases.
                     </p>
                     <div class="radar-legend" id="radar-legend">
-                        <button class="radar-legend__item is-active" type="button" data-idx="0" style="color: var(--chart-c2);">
-                            <span class="radar-legend__dot" style="background: var(--chart-c2);"></span>LLMind (Ours)
+                        <button class="radar-legend__item is-active" type="button" data-idx="0" style="color: var(--chart-c5);">
+                            <span class="radar-legend__dot" style="background: var(--chart-c5);"></span>LLMind (Ours)
                         </button>
-                        <button class="radar-legend__item is-active" type="button" data-idx="1" style="color: var(--chart-c5);">
-                            <span class="radar-legend__dot" style="background: var(--chart-c5);"></span>Uniform Sampled
+                        <button class="radar-legend__item is-active" type="button" data-idx="1" style="color: #64748b;">
+                            <span class="radar-legend__dot" style="background: #64748b;"></span>Uniform Sampled
                         </button>
                     </div>
                     <div class="radar-grid" id="radar-results-root"></div>
                 </div>
             </section>
 
-            <section class="section reveal" data-reveal>
+            <section class="section reveal" id="prediction-outcomes" data-reveal>
                 <div class="section__header">
                     <h2>Prediction Outcomes</h2>
                 </div>
@@ -250,7 +229,7 @@
             </section>
 
 
-            <section class="section reveal" data-reveal>
+            <section class="section reveal" id="contributions" data-reveal>
                 <div class="section__header">
                     <h2>Contributions</h2>
                 </div>
@@ -285,17 +264,15 @@
                 </div>
             </section>
 
-            <section class="section reveal" data-reveal>
+            <section class="section reveal" id="citation" data-reveal>
                 <div class="bibtex-card">
                     <p class="section-kicker">Citation</p>
-                    <pre class="bibtex-block"><code>@misc{debnath2026llmindbioinspiredtrainingfreeadaptive,
-      title={LLMind: Bio-inspired Training-free Adaptive Visual Representations for Vision-Language Models}, 
-      author={Soumyaratna Debnath and Bui Duc Manh and Zinan Liu and Lin Wang},
-      year={2026},
-      eprint={2603.14882},
-      archivePrefix={arXiv},
-      primaryClass={cs.CV},
-      url={https://arxiv.org/abs/2603.14882}, 
+                    <pre class="bibtex-block"><code>@inproceedings{debnath2026llmind,
+    title={Llmind: Bio-inspired training-free adaptive visual representations for vision-language models},
+    author={Debnath, Soumyaratna and Manh, Bui Duc and Liu, Zinan and Wang, Lin},
+    booktitle={Proceedings of the IEEE/CVF Conference on Computer Vision and Pattern Recognition},
+    pages={3133--3142},
+    year={2026},
 }</code></pre>
                 </div>
             </section>
@@ -323,6 +300,20 @@
         } else {
             revealItems.forEach((item) => item.classList.add("is-visible"));
         }
+
+        document.querySelectorAll(".autoplay-video").forEach((video) => {
+            const keepPlaying = () => {
+                video.muted = true;
+                video.controls = false;
+                if (video.paused) {
+                    video.play().catch(() => {});
+                }
+            };
+
+            video.addEventListener("pause", keepPlaying);
+            video.addEventListener("loadeddata", keepPlaying);
+            keepPlaying();
+        });
 
         const quantResultsData = {
             "VQAv2": {
@@ -526,8 +517,8 @@
         ];
 
         const radarSeries = [
-            { label: "LLMind (Ours)", color: "#2e9e5e" },
-            { label: "Uniform Sampled", color: "#b06a00" },
+            { label: "LLMind (Ours)", color: "#8a1538" },
+            { label: "Uniform Sampled", color: "#64748b" },
         ];
 
         const radarBudgets = [
@@ -650,7 +641,7 @@
                     const labelRadius = radarValueToRadius(budget.values[seriesIndex][index], budget.maxValue) + 12;
                     const labelPoint = radarPoint(angles[index], labelRadius);
                     ctx.fillStyle = series.color;
-                    ctx.font = "bold 8px monospace";
+                    ctx.font = "bold 8px 'IBM Plex Mono', monospace";
                     ctx.textAlign = "center";
                     ctx.textBaseline = "middle";
                     ctx.fillText(budget.values[seriesIndex][index].toFixed(2), labelPoint.x, labelPoint.y);
@@ -661,7 +652,7 @@
                 const labelPoint = radarPoint(angles[index], radarRadius + 28);
                 const lines = category.split("\n");
                 ctx.fillStyle = "#4a5068";
-                ctx.font = "600 10px 'Manrope', sans-serif";
+                ctx.font = "600 10px 'IBM Plex Sans', sans-serif";
                 ctx.textAlign = "center";
                 ctx.textBaseline = "middle";
                 lines.forEach((line, lineIndex) => {

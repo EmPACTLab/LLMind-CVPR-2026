@@ -4,57 +4,29 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Prediction Outcomes — Pixel Budgets</title>
-<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
-<script>
-  (function () {
-    const themes = [
-      { accent: "#1f3a5f", soft: "#3a5e90", rgb: "31, 58, 95", blob: "#8ea5c5" },
-      { accent: "#82073c", soft: "#a11258", rgb: "130, 7, 60", blob: "#bb6a8d" },
-      { accent: "#1f6b46", soft: "#309965", rgb: "31, 107, 70", blob: "#84c5a3" },
-      { accent: "#5c4033", soft: "#8a624d", rgb: "92, 64, 51", blob: "#c6ab99" },
-      { accent: "#b34700", soft: "#d4651a", rgb: "179, 71, 0", blob: "#d79a72" },
-      { accent: "#4b2e83", soft: "#7050ad", rgb: "75, 46, 131", blob: "#ae9bcc" },
-    ];
-    let selected = null;
-    try {
-      selected = JSON.parse(localStorage.getItem("llmindAccentTheme") || "null");
-    } catch (err) {}
-    if (!selected) {
-      selected = themes[Math.floor(Math.random() * themes.length)];
-      try { localStorage.setItem("llmindAccentTheme", JSON.stringify(selected)); } catch (err) {}
-    }
-    const root = document.documentElement;
-    root.style.setProperty("--accent", selected.accent);
-    root.style.setProperty("--accent-soft", selected.soft);
-    root.style.setProperty("--accent-rgb", selected.rgb);
-  })();
-</script>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
   :root {
-    --bg: #f5f8fd;
-    --surface: rgba(255, 255, 255, 0.9);
-    --border: rgba(20, 35, 64, 0.12);
-    --text: #13213a;
-    --muted: #5f6f8f;
-    --correct: #6ab187;
-    --wrong: #e8716a;
-    --partial: #f0c355;
-    --correct-dark: #2f7a57;
-    --wrong-dark: #a93c35;
-    --partial-dark: #986411;
-    --accent: #82073c;
-    --accent-soft: #a11258;
-    --accent-rgb: 130, 7, 60;
+    --bg: #f7f8fa;
+    --surface: #ffffff;
+    --border: #d9dee7;
+    --text: #111827;
+    --muted: #5f6b7a;
+    --correct: #22c55e;
+    --wrong: #ef4444;
+    --partial: #f59e0b;
+    --correct-dark: #15803d;
+    --wrong-dark: #b91c1c;
+    --partial-dark: #b45309;
+    --accent: #7a1f2b;
+    --accent-soft: #9f2f3e;
   }
 
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
   body {
-    background:
-      radial-gradient(680px 260px at -10% -15%, rgba(var(--accent-rgb), 0.14), transparent 64%),
-      radial-gradient(640px 260px at 110% -10%, rgba(217, 131, 78, 0.14), transparent 62%),
-      linear-gradient(165deg, #f6f9ff 0%, var(--bg) 100%);
-    font-family: 'Outfit', sans-serif;
+    background: var(--bg);
+    font-family: 'Inter', sans-serif;
     color: var(--text);
     padding: 30px 18px 44px;
   }
@@ -69,27 +41,26 @@
 
   .tab {
     padding: 8px 18px;
-    border-radius: 999px;
+    border-radius: 6px;
     border: 1px solid var(--border);
-    background: rgba(255, 255, 255, 0.72);
+    background: #ffffff;
     font-size: 0.78rem;
     font-weight: 700;
     letter-spacing: 0.02em;
     cursor: pointer;
     color: var(--muted);
-    transition: transform 160ms ease, box-shadow 160ms ease, border-color 160ms ease;
+    transition: border-color 160ms ease, background-color 160ms ease;
   }
 
   .tab.active {
-    background: linear-gradient(120deg, var(--accent), var(--accent-soft));
+    background: var(--accent);
     color: #fff;
     border-color: transparent;
-    box-shadow: 0 8px 16px rgba(var(--accent-rgb), 0.25);
+    box-shadow: none;
   }
 
   .tab:not(.active):hover {
-    transform: translateY(-1px);
-    box-shadow: 0 8px 16px rgba(18, 35, 64, 0.08);
+    border-color: rgba(122, 31, 43, 0.35);
   }
 
   .pair {
@@ -103,14 +74,13 @@
   .chart-wrap {
     background: var(--surface);
     border: 1px solid var(--border);
-    border-radius: 18px;
+    border-radius: 8px;
     padding: 20px 16px 16px;
     display: flex;
     flex-direction: column;
     align-items: center;
-    box-shadow: 0 10px 22px rgba(16, 32, 58, 0.1);
+    box-shadow: 0 8px 18px rgba(17, 24, 39, 0.05);
     width: min(100%, 294px);
-    backdrop-filter: blur(6px);
   }
 
   .chart-name {
@@ -120,7 +90,7 @@
     margin-bottom: 12px;
     letter-spacing: 0.04em;
     text-transform: uppercase;
-    font-family: 'DM Mono', monospace;
+    font-family: 'IBM Plex Mono', monospace;
   }
 
   .donut-container {
@@ -143,7 +113,7 @@
   .donut-center .center-label {
     font-size: 0.6rem;
     color: var(--muted);
-    font-family: 'DM Mono', monospace;
+    font-family: 'IBM Plex Mono', monospace;
     letter-spacing: 0.05em;
     text-transform: uppercase;
   }
@@ -173,7 +143,7 @@
     font-size: 0.68rem;
     color: var(--muted);
     width: 85px;
-    font-family: 'DM Mono', monospace;
+    font-family: 'IBM Plex Mono', monospace;
     flex-shrink: 0;
   }
 
@@ -196,7 +166,7 @@
     font-weight: 700;
     width: 32px;
     text-align: right;
-    font-family: 'DM Mono', monospace;
+    font-family: 'IBM Plex Mono', monospace;
   }
 
   .delta-strip {
@@ -218,7 +188,7 @@
   .delta-card {
     background: var(--surface);
     border: 1px solid var(--border);
-    border-radius: 12px;
+    border-radius: 8px;
     padding: 12px 8px;
     text-align: center;
     box-shadow: 0 8px 16px rgba(16, 32, 58, 0.07);
@@ -227,7 +197,7 @@
   .delta-card .d-label {
     font-size: 0.62rem;
     color: var(--muted);
-    font-family: 'DM Mono', monospace;
+    font-family: 'IBM Plex Mono', monospace;
     margin-bottom: 4px;
     text-transform: uppercase;
     letter-spacing: 0.04em;
@@ -266,9 +236,9 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js"></script>
 <script>
 const COLORS = {
-  correct: '#6ab187',
-  wrong:   '#e8716a',
-  partial: '#f0c355',
+  correct: '#22c55e',
+  wrong:   '#ef4444',
+  partial: '#f59e0b',
 };
 
 const budgets = [
@@ -322,8 +292,8 @@ function buildDonut(canvasId, data, centerVal) {
             label: ctx => ` ${ctx.label}: ${ctx.parsed}%`
           },
           backgroundColor: '#1a1d27',
-          titleFont: { family: 'DM Mono', size: 11 },
-          bodyFont: { family: 'DM Mono', size: 12 },
+          titleFont: { family: 'IBM Plex Mono', size: 11 },
+          bodyFont: { family: 'IBM Plex Mono', size: 12 },
           padding: 10,
           cornerRadius: 8,
         }
@@ -405,7 +375,7 @@ function buildChart(idx) {
 
   const strip = document.getElementById('deltaStrip');
   const intro = document.createElement('div');
-  intro.style.cssText = 'width:100%;text-align:center;font-size:0.78rem;color:var(--muted);font-family:DM Mono,monospace;margin-bottom:4px;letter-spacing:0.04em;text-transform:uppercase;';
+  intro.style.cssText = 'width:100%;text-align:center;font-size:0.78rem;color:var(--muted);font-family:IBM Plex Mono,monospace;margin-bottom:4px;letter-spacing:0.04em;text-transform:uppercase;';
   intro.textContent = 'LLMind vs Uniform — difference';
   strip.appendChild(intro);
 
