@@ -176,6 +176,13 @@ img {
     text-transform: uppercase;
 }
 
+.eyebrow__highlight {
+    padding: 0.1rem 0.38rem;
+    background: #ffd84d;
+    color: #000000;
+    letter-spacing: 0.16em;
+}
+
 .eyebrow__rule {
     width: 26px;
     height: 1px;
