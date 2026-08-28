@@ -183,6 +183,18 @@ img {
     letter-spacing: 0.16em;
 }
 
+.affiliation a.affiliation__highlight {
+    padding: 0.1rem 0.38rem;
+    background: #f2f2f2;
+    color: #000000;
+    transition: background-color 160ms ease, color 160ms ease;
+}
+
+.affiliation a.affiliation__highlight:hover {
+    background: #e5f1fb;
+    color: #000000;
+}
+
 .eyebrow__rule {
     width: 26px;
     height: 1px;
